@@ -36,12 +36,13 @@ public class LoginServlet extends HttpServlet {
         RequestDispatcher rd = req.getRequestDispatcher("login.html");
 
         User user = new UserDAO().getByEmail(email.trim());
+        System.out.println(user);
         if (user == null) {
             resp.getWriter().println("<b>User does not exist. Please <a href='registration'> Reg</a></b>");
             rd.include(req, resp);
         } else if (password.equals(user.getPassword())) {
-            rd = req.getRequestDispatcher("welcome");
-            rd.forward(req, resp);
+            resp.getWriter().println("welcome,"+user.getName());
+            rd.include(req, resp);
         } else {
             resp.getWriter().println("<b>Bad credentials</b>");
             rd.include(req, resp);

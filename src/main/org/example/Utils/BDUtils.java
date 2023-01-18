@@ -9,23 +9,20 @@ public class BDUtils {
     public static Connection getConnection() {
         Connection connection = null;
         try {
+            Class.forName(DRIVER);
             connection = DriverManager.getConnection(URL, NAME, PSW);
             System.out.println("Sucsesfull");
-        } catch (SQLException ex) {
+        }catch (ClassNotFoundException ex1){
+            System.err.println(ex1);
+        }
+        catch (SQLException ex) {
             System.err.println(ex);
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                System.err.println(e);
-            }
+        }
             return connection;
         }
 
 
-    }
+
     public static void release(Connection connection, Statement st,PreparedStatement ps,ResultSet rs) {
         try {
             if (connection != null) connection.close();
@@ -37,4 +34,6 @@ public class BDUtils {
             System.err.println(es);
         }
     }
+
+
 }
