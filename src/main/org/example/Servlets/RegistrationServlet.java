@@ -31,7 +31,7 @@ public class RegistrationServlet extends HttpServlet {
         resp.setContentType("text/html");
 
         if(!password.equals(password1)){
-            resp.getWriter().println("PAsswords are not equal");
+            resp.getWriter().println("Passwords are not equal");
             rd.include(req,resp);
             return;
         }
