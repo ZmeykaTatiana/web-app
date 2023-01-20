@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -41,6 +42,10 @@ public class LoginServlet extends HttpServlet {
             resp.getWriter().println("<b>User does not exist. Please <a href='registration'> Reg</a></b>");
             rd.include(req, resp);
         } else if (password.equals(user.getPassword())) {
+            HttpSession s=req.getSession();
+            System.out.println("Session"+s.getId());
+            s.setMaxInactiveInterval(100);
+            s.setAttribute("user",user);
             resp.getWriter().println("welcome,"+user.getName());
             rd.include(req, resp);
         } else {

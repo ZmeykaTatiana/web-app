@@ -2,6 +2,7 @@ package org.example.Servlets;
 
 import org.example.DAO.impl.UserDAO;
 import org.example.Model.User;
+import org.example.Utils.EncryptDecryptUtils;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -25,8 +26,8 @@ public class RegistrationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name=req.getParameter("name");
         String email=req.getParameter("email");
-        String password=req.getParameter("password");
-        String password1=req.getParameter("password1");
+        String password= EncryptDecryptUtils.encrypt(req.getParameter("password"));
+        String password1=EncryptDecryptUtils.encrypt(req.getParameter("password1"));
         RequestDispatcher rd=req.getRequestDispatcher("registration.html");
         resp.setContentType("text/html");
 

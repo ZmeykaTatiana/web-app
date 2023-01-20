@@ -5,6 +5,8 @@ import org.example.Model.User;
 import org.example.Utils.BDUtils;
 
 import java.sql.*;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class UserDAO extends AbstractDAO<User> {
@@ -46,10 +48,37 @@ public class UserDAO extends AbstractDAO<User> {
     }
 
     @Override
-    public Set getAll() {
-        return null;
+    public  Set<User> getAll() {
+        Connection connection=BDUtils.getConnection();
+        String sql="SELECT*FROM user_db.user";
+        Statement statement=null;
+        ResultSet rs=null;
+        User user=null;
+        Set<User> userList=new HashSet<>();
+        try{
+            statement=connection.createStatement();
+            rs=statement.executeQuery(sql);
+            while(rs.next()){
+                user=new User();
+                user.setId(rs.getInt("id"));
+                user.setName(rs.getString("name"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+
+                userList.add(user);
+
+
+
+            }
+
+
+        }catch(SQLException e){
+            System.err.println(e);
+        }
+
+          return userList;
     }
-    public User getByEmail(String email){
+    public  User getByEmail(String email){
         Connection connection=BDUtils.getConnection();
         String sql="SELECT * FROM user_db.user WHERE email='"+email+"'";
         Statement st=null;
@@ -76,5 +105,14 @@ public class UserDAO extends AbstractDAO<User> {
 
         return user;
 
+    }
+
+    public static void main(String[] args) {
+        Set<User> list=new UserDAO().getAll();
+        for (User user:list
+             ) {
+            System.out.println(user);
+
+        }
     }
 }
